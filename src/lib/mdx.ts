@@ -1,5 +1,7 @@
 import fs from "fs";
 import matter from "gray-matter";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import mdxPrism from "mdx-prism";
 import path from "path";
 import readingTime from "reading-time";

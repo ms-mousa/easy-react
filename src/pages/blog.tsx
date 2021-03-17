@@ -11,14 +11,11 @@ const BlogPage: ReactComponentType<{
     summary: string;
     image: string;
   }>;
-}> = ({ posts }) => {
-  console.log(posts);
-  return (
-    <Layout>
-      <Box>Hello, blog</Box>
-    </Layout>
-  );
-};
+}> = () => (
+  <Layout>
+    <Box>Hello, blog</Box>
+  </Layout>
+);
 
 export default BlogPage;
 

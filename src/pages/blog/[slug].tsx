@@ -20,7 +20,7 @@ const BlogPage: ReactComponentType<{
     image: string;
   };
 }> = (props) => {
-  const { mdxSource, frontMatter } = props;
+  const { mdxSource } = props;
   const content = hydrate(mdxSource, {
     components: MDXComponents,
   });

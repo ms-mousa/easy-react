@@ -4,13 +4,9 @@ import { NavBar } from "./NavBar";
 
 export const Layout: ReactComponentType<{ children: JSX.Element }> = ({
   children,
-}) => {
-  const hello = "";
-
-  return (
-    <Stack spacing="3" marginX="auto" maxW="900px">
-      <NavBar />
-      {children}
-    </Stack>
-  );
-};
+}) => (
+  <Stack spacing="3" marginX="auto" maxW="900px">
+    <NavBar />
+    {children}
+  </Stack>
+);
