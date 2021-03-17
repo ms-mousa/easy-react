@@ -1,56 +1,80 @@
 import {
-  Link as ChakraLink,
+  Box,
+  Heading,
   Text,
-  Code,
-  List,
-  ListIcon,
-  ListItem,
-} from '@chakra-ui/react'
-import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons'
+  Image,
+  Flex,
+  Badge,
+  Stack,
+  useColorModeValue,
+  Center,
+} from "@chakra-ui/react";
+import React from "react";
+import { ReactComponentType } from "../@types/global";
+import { Layout } from "../components/Layout";
+import { getAllFilesFrontMatter } from "../lib/mdx";
 
-import { Hero } from '../components/Hero'
-import { Container } from '../components/Container'
-import { Main } from '../components/Main'
-import { DarkModeSwitch } from '../components/DarkModeSwitch'
-import { CTA } from '../components/CTA'
-import { Footer } from '../components/Footer'
+const IndexPage: ReactComponentType<{
+  posts: Array<{
+    slug: string | null;
+    title: string;
+    publishedAt: string;
+    summary: string;
+    image: string;
+    tags: string[];
+  }>;
+}> = ({ posts }) => {
+  const borderColor = useColorModeValue("blackAlpha.400", "whiteAlpha.200");
 
-const Index = () => (
-  <Container height="100vh">
-    <Hero />
-    <Main>
-      <Text>
-        Example repository of <Code>Next.js</Code> + <Code>chakra-ui</Code> +{' '}
-        <Code>typescript</Code>.
-      </Text>
-
-      <List spacing={3} my={0}>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          <ChakraLink
-            isExternal
-            href="https://chakra-ui.com"
-            flexGrow={1}
-            mr={2}
+  return (
+    <Layout>
+      <Box>
+        <Center>
+          <Box mb="5">
+            <Heading>Hey, I&apos;m Mahmoud Mousa</Heading>
+            <Text>
+              I run Easy React. I&apos;m here to make your time learning React
+              easier
+            </Text>
+          </Box>
+        </Center>
+        {posts.map((p) => (
+          <Flex
+            overflow="hidden"
+            border="1px solid"
+            borderColor={borderColor}
+            rounded="md"
+            boxShadow="sm"
           >
-            Chakra UI <LinkIcon />
-          </ChakraLink>
-        </ListItem>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          <ChakraLink isExternal href="https://nextjs.org" flexGrow={1} mr={2}>
-            Next.js <LinkIcon />
-          </ChakraLink>
-        </ListItem>
-      </List>
-    </Main>
+            <Image maxH="150px" src={p.image} />
+            <Box py="1" ml="2">
+              <Stack
+                isInline
+                divider={<Text mx="1"> • </Text>}
+                alignItems="center"
+              >
+                <Heading textDecor="underline" fontSize="xl">
+                  {p.title}
+                </Heading>
+                {p.tags.map((tag) => (
+                  <Badge key={tag} colorScheme="purple">
+                    {tag}
+                  </Badge>
+                ))}
+              </Stack>
+              <Text>{p.summary}</Text>
+            </Box>
+          </Flex>
+        ))}
+      </Box>
+    </Layout>
+  );
+};
 
-    <DarkModeSwitch />
-    <Footer>
-      <Text>Next ❤️ Chakra</Text>
-    </Footer>
-    <CTA />
-  </Container>
-)
+export default IndexPage;
 
-export default Index
+export async function getStaticProps() {
+  const posts = await getAllFilesFrontMatter("blog");
+
+  return { props: { posts } };
+}

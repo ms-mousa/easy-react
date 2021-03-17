@@ -1,0 +1,17 @@
+{
+  "editor.rulers": [90],
+  "editor.tabSize": 2,
+  "editor.tabCompletion": "on",
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "eslint.run": "onSave",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+  },
+  "eslint.validate": [
+    "javascript",
+    "typescript"
+  ],
+    "cSpell.words": [
+        "xstocks"
+    ]
+}
