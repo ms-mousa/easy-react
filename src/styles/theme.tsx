@@ -1,5 +1,5 @@
 import { extendTheme } from "@chakra-ui/react";
-import { createBreakpoints } from "@chakra-ui/theme-tools";
+import { createBreakpoints, mode } from "@chakra-ui/theme-tools";
 import { nightOwlDarkTheme } from "./night-owl";
 import { nightOwlLightTheme } from "./night-owl-light";
 import { textStyles as Text } from "./components/textStyles";
@@ -22,8 +22,15 @@ const theme = extendTheme({
     black: "#16161D",
   },
   styles: {
-    global: (props) =>
-      props.colorMode === "dark" ? nightOwlDarkTheme : nightOwlLightTheme,
+    global: (props) => ({
+      ...(props.colorMode === "dark"
+        ? { nightOwlDarkTheme }
+        : { nightOwlLightTheme }),
+      "html, body": {
+        color: mode("black", "white")(props),
+        background: mode("gray.100", "gray.800")(props),
+      },
+    }),
   },
   components: {
     Text,

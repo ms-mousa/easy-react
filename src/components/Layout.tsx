@@ -5,7 +5,7 @@ import { NavBar } from "./NavBar";
 export const Layout: ReactComponentType<{ children: JSX.Element }> = ({
   children,
 }) => (
-  <Stack spacing="3" marginX="auto" maxW="900px">
+  <Stack spacing="0" marginX="auto">
     <NavBar />
     {children}
   </Stack>

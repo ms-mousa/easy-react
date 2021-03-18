@@ -1,0 +1,36 @@
+---
+title: 'Testing stuff'
+publishedAt: '2017-07-15'
+summary: 'Visualize my journey through the scenic lands of Norway with rich, stunning pictures and daily travel logs.'
+tags: ['react', 'typescript']
+image: '/img/test.png'
+---
+
+# Hello, I'm testing stuff
+`Yes testing stuff` 
+
+```js{13,6,7}
+datasource db => {
+  provider = "sqlite"
+  url      = "file:dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Song {
+  id            Int     @default(autoincrement()) @id
+  name          String
+  youtubeId     String?
+  albumCoverUrl String?
+  artist        Artist? @relation(fields: [artistId], references: [id])
+  artistId      Int?
+}
+
+model Artist {
+  id    Int     @default(autoincrement()) @id
+  name  String  @unique
+  songs Song[]
+}
+```
