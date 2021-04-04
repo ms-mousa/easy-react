@@ -3,30 +3,19 @@ import {
   Heading,
   Text,
   Image,
-  Flex,
-  Badge,
-  Stack,
-  useColorModeValue,
   Center,
   useToken,
   useColorMode,
+  Grid,
 } from "@chakra-ui/react";
-import React from "react";
-import { ReactComponentType } from "../@types/global";
+import { IPost, ReactComponentType } from "../@types/global";
 import { Layout } from "../components/Layout";
+import { PostCard } from "../components/PostCard";
 import { getAllFilesFrontMatter } from "../lib/mdx";
 
 const IndexPage: ReactComponentType<{
-  posts: Array<{
-    slug: string | null;
-    title: string;
-    publishedAt: string;
-    summary: string;
-    image: string;
-    tags: string[];
-  }>;
+  posts: IPost[];
 }> = ({ posts }) => {
-  const borderColor = useColorModeValue("blackAlpha.400", "whiteAlpha.200");
   const { colorMode } = useColorMode();
 
   const [purple300, purple500, purple800, purple600] = useToken("colors", [
@@ -56,45 +45,28 @@ const IndexPage: ReactComponentType<{
           mb="5"
           mt="-10"
           textAlign="center"
-          sx={{ backdropFilter: "blur(3px)" }}
+          sx={{ backdropFilter: "blur(2px)" }}
         >
           <Heading fontSize="5xl" textDecor="underline">
             Easy React
           </Heading>
           <Text>We got your back</Text>
         </Box>
-        <Stack mx="auto" maxW="900px" px="3">
-          <Text fontSize="2xl">Latest Posts</Text>
-          {posts.map((p) => (
-            <Flex
-              overflow="hidden"
-              border="1px solid"
-              borderColor={borderColor}
-              rounded="md"
-              boxShadow="sm"
-              key={p.slug}
-            >
-              <Image maxH="150px" src={p.image} />
-              <Box py="1" ml="2">
-                <Stack
-                  isInline
-                  divider={<Text mx="1"> • </Text>}
-                  alignItems="center"
-                >
-                  <Heading textDecor="underline" fontSize="xl">
-                    {p.title}
-                  </Heading>
-                  {p.tags.map((tag) => (
-                    <Badge key={tag} colorScheme="purple">
-                      {tag}
-                    </Badge>
-                  ))}
-                </Stack>
-                <Text>{p.summary}</Text>
-              </Box>
-            </Flex>
-          ))}
-        </Stack>
+        <Box mx="auto" maxW="900px" px="3">
+          <Text fontSize="2xl">Latest articles</Text>
+          <Grid
+            p="3"
+            m="0 auto"
+            gridGap="5"
+            maxW="1040px"
+            w="100%"
+            templateColumns="repeat(auto-fit, minmax(300px, 1fr))"
+          >
+            {posts.map((p) => (
+              <PostCard key={p.slug} post={p} />
+            ))}
+          </Grid>
+        </Box>
       </Box>
     </Layout>
   );

@@ -11,7 +11,6 @@ import {
   Button,
   Center,
 } from "@chakra-ui/react";
-import React from "react";
 
 export const NavBar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -21,7 +20,7 @@ export const NavBar = () => {
       marginX="auto"
       sx={{ backdropFilter: "blur(3px)" }}
       position="absolute"
-      w="100vw"
+      w="100%"
     >
       <Box
         p="2"

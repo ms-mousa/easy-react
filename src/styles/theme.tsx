@@ -23,9 +23,7 @@ const theme = extendTheme({
   },
   styles: {
     global: (props) => ({
-      ...(props.colorMode === "dark"
-        ? { nightOwlDarkTheme }
-        : { nightOwlLightTheme }),
+      ...(props.colorMode === "dark" ? nightOwlDarkTheme : nightOwlLightTheme),
       "html, body": {
         color: mode("black", "white")(props),
         background: mode("gray.100", "gray.800")(props),
