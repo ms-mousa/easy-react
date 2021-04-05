@@ -1,4 +1,4 @@
-import { useColorMode, useToken, Box, Flex, Center } from "@chakra-ui/react";
+import { useColorMode, useToken, Box, Flex } from "@chakra-ui/react";
 
 export const Footer = () => {
   const { colorMode } = useColorMode();
