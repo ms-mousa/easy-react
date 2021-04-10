@@ -25,6 +25,7 @@ const theme = extendTheme({
     global: (props) => ({
       ...(props.colorMode === "dark" ? nightOwlDarkTheme : nightOwlLightTheme),
       "html, body": {
+        overflowX: "hidden",
         color: mode("black", "white")(props),
         background: mode("gray.100", "gray.800")(props),
       },

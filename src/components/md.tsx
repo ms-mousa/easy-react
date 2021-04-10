@@ -1,5 +1,12 @@
 import { CheckIcon } from "@chakra-ui/icons";
-import { Center, Heading, ListIcon, ListItem, Text } from "@chakra-ui/react";
+import {
+  Center,
+  Heading,
+  Link,
+  ListIcon,
+  ListItem,
+  Text,
+} from "@chakra-ui/react";
 import { ReactComponentType } from "../@types/global";
 
 export const H2: ReactComponentType<{ children: JSX.Element }> = ({
@@ -8,6 +15,7 @@ export const H2: ReactComponentType<{ children: JSX.Element }> = ({
   <Center>
     <Heading
       position="relative"
+      textAlign="center"
       _after={{
         content: "''",
         position: "absolute",
@@ -22,7 +30,7 @@ export const H2: ReactComponentType<{ children: JSX.Element }> = ({
       }}
       mb="4"
       as="h2"
-      fontSize="3xl"
+      fontSize={["24px", "3xl", "3xl", "3xl"]}
     >
       {children}
     </Heading>
@@ -41,7 +49,20 @@ export const LI: ReactComponentType<{ children: JSX.Element }> = ({
 export const Paragraph: ReactComponentType<{ children: JSX.Element }> = ({
   children,
 }) => (
-  <Text fontSize="lg" lineHeight="tall">
+  <Text fontSize="md" lineHeight="tall" my="4">
     {children}
   </Text>
+);
+
+export const ExternalLink: ReactComponentType<{ children: JSX.Element }> = ({
+  children,
+}) => (
+  <Link
+    backgroundClip="text"
+    backgroundImag="linear-gradient(to right, #F024B9 19%, #A827CF 100%)"
+    href={children.props?.href}
+    color="pink"
+  >
+    {children}
+  </Link>
 );

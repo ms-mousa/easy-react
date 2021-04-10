@@ -1,14 +1,15 @@
 ---
 title: 'Customisations with Chakra-ui'
-publishedAt: '2017-07-15'
+publishedAt: '2021-04-12'
 summary: "Chakra-UI is a very handy library. Customisations are very simple to make. You can add new colors, customize components and more. In this article I'll show you how to..."
 tags: ['Chakra-UI']
 image: '/img/chakra-ui-customisations.png'
 ---
 
-## Customisations with Chakra-ui
 
 Chakra-ui has come a long way. Since their `V1` release and they have been adding features and making the library more and more complete. With `V1.5` You can surely depend on `Chakra-UI` to build high quality, very pleasing and accessible modern apps. 
+
+
 
 Customisations are a big part of any component library. After all, each prodcut has its own colors and its own brand. A good component library makes using the brand colors and conveying the design intent easy to write and easy to maintain. Not only does`Chakra-UI` ship with great theme, it also gives you the tools to customise that theme to your liking all you want. 
 
@@ -18,11 +19,13 @@ Adding brand colors is very simple. Withe the new utility function `extendTheme`
 
 The idea is the return of the function is a new theme variably that you pass in the `ChakraProvider` at the core of your app. The new theme will have the original theme from Chakra-UI and whatever you have added on. Let's suppose we have those brand colors we want to add to our theme. Those colors are adopted from [ColorSpace](https://mycolor.space/?hex=%23845EC2&sub=1) with a simple flare on a favoritr purple colour. 
 
-- Primary: `#845EC2`
-- Secondary : `#FF6F91`
-- Highlight: `#00C9A7`
-- Warning: `#FFC75F`
-- Danger: `#C34A36`
+```yaml
+- Primary: #845EC2
+- Secondary : #FF6F91
+- Highlight: #00C9A7
+- Warning: #FFC75F
+- Danger: #C34A36
+```
 
 Let's take a look and see how we can easily add those colors to our theme. 
 

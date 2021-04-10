@@ -19,4 +19,5 @@ export interface IFrontMatter {
   publishedAt: string;
   summary: string;
   image: string;
+  tags: string[];
 }
