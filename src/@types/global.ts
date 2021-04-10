@@ -10,3 +10,13 @@ export interface IPost {
   image: string;
   tags: string[];
 }
+
+export interface IFrontMatter {
+  wordCount: number;
+  readingTime: { text: string; minutes: number; time: number; words: number };
+  slug: string | null;
+  title: string;
+  publishedAt: string;
+  summary: string;
+  image: string;
+}

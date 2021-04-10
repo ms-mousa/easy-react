@@ -3,31 +3,31 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import hydrate from "next-mdx-remote/hydrate";
 // eslint-disable-next-line import/no-unresolved
 import { MdxRemote } from "next-mdx-remote/types";
-import { ReactComponentType } from "../../@types/global";
+import { IFrontMatter, ReactComponentType } from "../../@types/global";
 import { MDXComponents } from "../../components";
+import { ArticleHeader } from "../../components/ArticleHeader";
 import { Layout } from "../../components/Layout";
 import { getFileBySlug, getFiles } from "../../lib/mdx";
 
 const ArticlePage: ReactComponentType<{
   mdxSource: MdxRemote.Source;
-  frontMatter: {
-    wordCount: number;
-    readingTime: { text: string; minutes: number; time: number; words: number };
-    slug: string | null;
-    title: string;
-    publishedAt: string;
-    summary: string;
-    image: string;
-  };
+  frontMatter: IFrontMatter;
 }> = (props) => {
-  const { mdxSource } = props;
+  const { mdxSource, frontMatter } = props;
   const content = hydrate(mdxSource, {
     components: MDXComponents,
   });
 
   return (
     <Layout>
-      <Box mt="150px" alignSelf="center" w="900px">
+      <Box
+        mt="150px"
+        alignSelf="center"
+        maxW="1200px"
+        w={["100%", "100%", "1200px", "1200px"]}
+        px="4"
+      >
+        <ArticleHeader frontMatter={frontMatter} />
         {content}
       </Box>
     </Layout>

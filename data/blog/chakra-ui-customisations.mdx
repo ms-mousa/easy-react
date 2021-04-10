@@ -1,0 +1,181 @@
+---
+title: 'Customisations with Chakra-ui'
+publishedAt: '2017-07-15'
+summary: "Chakra-UI is a very handy library. Customisations are very simple to make. You can add new colors, customize components and more. In this article I'll show you how to..."
+tags: ['Chakra-UI']
+image: '/img/chakra-ui-customisations.png'
+---
+
+## Customisations with Chakra-ui
+
+Chakra-ui has come a long way. Since their `V1` release and they have been adding features and making the library more and more complete. With `V1.5` You can surely depend on `Chakra-UI` to build high quality, very pleasing and accessible modern apps. 
+
+Customisations are a big part of any component library. After all, each prodcut has its own colors and its own brand. A good component library makes using the brand colors and conveying the design intent easy to write and easy to maintain. Not only does`Chakra-UI` ship with great theme, it also gives you the tools to customise that theme to your liking all you want. 
+
+## Adding colors
+
+Adding brand colors is very simple. Withe the new utility function `extendTheme` you can easily add and customise more than colors to your theme. For now let's pay attention to adding colors to our theme. 
+
+The idea is the return of the function is a new theme variably that you pass in the `ChakraProvider` at the core of your app. The new theme will have the original theme from Chakra-UI and whatever you have added on. Let's suppose we have those brand colors we want to add to our theme. Those colors are adopted from [ColorSpace](https://mycolor.space/?hex=%23845EC2&sub=1) with a simple flare on a favoritr purple colour. 
+
+- Primary: `#845EC2`
+- Secondary : `#FF6F91`
+- Highlight: `#00C9A7`
+- Warning: `#FFC75F`
+- Danger: `#C34A36`
+
+Let's take a look and see how we can easily add those colors to our theme. 
+
+```jsx{8,9,10,11,12}
+// 1. Import the function `extendTheme`
+import { extendTheme } from "@chakra-ui/react"
+
+// 2. Call `extendTheme` and pass your custom values
+const myNewTheme = extendTheme({
+  // Whatever you pass here will be added to the colors not replace it
+  colors: { 
+    primary: "#845EC2",
+    secondary: "#FF6F91",
+    highlight: "#00C9A7",
+    warning: "#FFC75F",
+    danger: "#C34A36",
+  },
+})
+
+// 3. Pass the new theme to `ChakraProvider` -> This happens at the core of your 
+// your app. `_app.tsx` for a nextJS app
+<ChakraProvider theme={myNewTheme}>
+  <App />
+</ChakraProvider>
+
+// 4. Now you can use these colors in your components
+function MyCustomBox() {
+  return <Box bg="primary">Welcome</Box>
+}
+```
+
+## Customising components
+
+Well, what's the use of cutsom colors if you can use them to color up your buttons eh! Chakra-ui allows to add custom variants for all the built in components. A feature that is so handy and allows you to avoid so much messy complicated ways to build new components from scratch. Trust me, I've been there 😅
+
+Chakra-ui gives us a basic object style structure we can use to customize the components, add variants and do much more. We simply declare a object that follows the following structure:
+
+```javascript
+export const ButtonStyles = {
+  // style object for base or default style
+  baseStyle: {},
+  // styles for different sizes ("sm", "md", "lg")
+  sizes: {},
+  // styles for different visual variants ("outline", "solid")
+  variants: {},
+  // default values for `size` and `variant`
+  defaultProps: {},
+};
+
+```
+
+Then we need to add the `ButtonStyles` into our `extendTheme` function to add it to our theme. 
+
+```javascript
+// Notice the import as cus we need to pass this as Button into the function
+import { ButtonStyles as Button } from "./ButtonStyles";
+
+const theme = extendTheme({
+  colors: {
+    primary: "#845EC2",
+    secondary: "#FF6F91",
+    highlight: "#00C9A7",
+    warning: "#FFC75F",
+    danger: "#C34A36",
+  },
+  components: {
+    Button, // Has to match to the name of the component
+  },
+});
+```
+
+Now this is exactly how Chakr-ui team builds their components. If you're wondering how? Easy, Chakra-ui files can be seen [here](https://github.com/chakra-ui/chakra-ui/tree/main/packages/theme/src/components). You can find the core Button styles [here](https://github.com/chakra-ui/chakra-ui/blob/main/packages/theme/src/components/button.ts). Definitly worth a read through if we are keen to do any advanced work on components. 
+
+Now let's say we need to add a `primary` variant to our buttons. We can easily do that by adding the following to our variants object:
+
+```javascript
+import { darken, mode, whiten } from "@chakra-ui/theme-tools";
+
+// Inide of `ButtonStyles`
+	variants: {
+    primary: (props) => ({
+      bg: "primary", // Notice the use of color directly here
+      color: "white",
+      _hover: {
+        // Notice the use of `mode` function to change color 
+        // based on theme color mode
+        bg: mode(whiten("primary", 20), darken("primary", 20))(props),
+        boxShadow: "md",
+      },
+    }),
+  },
+```
+
+The `primary` variant could also have been a simpler object. Not changing values based on the color mode. As follows:
+
+```javascript
+import { darken, mode, whiten } from "@chakra-ui/theme-tools";
+
+// Inide of `ButtonStyles`
+	variants: {
+    // Notice the far simpler structure
+    primary: {
+      bg: "primary",
+      color: "white",
+      _hover: {
+        bg: 'secondary',
+        boxShadow: "md",
+      },
+    },
+  },
+```
+
+So you can use both ways. You can either supply the object styles directly or pass a function that will return them. Very handy! 🔥
+
+Same thing can be done for more and more customisations:
+
+```javascript
+import { darken, mode, whiten } from "@chakra-ui/theme-tools";
+
+	variants: {
+    primary: (props) => ({
+      bg: "primary",
+      color: "white",
+      _hover: {
+        bg: mode(whiten("primary", 20), darken("primary", 20))(props),
+        boxShadow: "md",
+      },
+    }),
+    secondary: (props) => ({
+      bg: "secondary",
+      color: "white",
+      _hover: {
+        bg: mode(whiten("secondary", 20), darken("secondary", 20))(props),
+        boxShadow: "md",
+      },
+    }),
+    secondaryOutline: (props) => ({
+      bg: "transparent",
+      border: "1px solid",
+      borderColor: "secondary",
+      color: "secondary",
+      transition: "all 200ms ease",
+      _hover: {
+        boxShadow: "md",
+        transform: "scale(1.02)",
+      },
+    }),
+  },
+```
+
+## Conclusion
+
+Chakra-ui is one the best upcoming component libararies out there. Flexible, easy to work with and with great community support. You are in safe hands.
+
+If you want to get access to the code repo through our free code base access subscription below: 
+

@@ -38,7 +38,6 @@ export const PostCard: ReactComponentType<{ post: IPost }> = ({ post }) => {
               textAlign="center"
               backgroundImage="linear-gradient(to right, #F024B9 19%, #A827CF 100%)"
               backgroundClip="text"
-              textFillColor="transparent"
               cursor="pointer"
               fontSize="2xl"
               transition="0.5s ease"
@@ -70,18 +69,18 @@ export const PostCard: ReactComponentType<{ post: IPost }> = ({ post }) => {
               <Text
                 backgroundImage="linear-gradient(to right, #F024B9 19%, #A827CF 100%)"
                 backgroundClip="text"
-                textFillColor="transparent"
                 mx="1"
               >
                 •
               </Text>
             }
           >
-            {post.tags.map((tag) => (
-              <Badge key={tag} colorScheme="purple">
-                {tag}
-              </Badge>
-            ))}
+            {post.tags &&
+              post.tags.map((tag) => (
+                <Badge key={tag} colorScheme="purple">
+                  {tag}
+                </Badge>
+              ))}
           </Stack>
         </Flex>
         <Text>{post.summary}</Text>
