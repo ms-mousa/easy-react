@@ -14,12 +14,14 @@ export const ArticleHeader: ReactComponentType<{
       {frontMatter.title}
     </Heading>
     <Text>Published on: {frontMatter.publishedAt}</Text>
-    {frontMatter.tags &&
-      frontMatter.tags.map((tag) => (
-        <Badge key={tag} colorScheme="purple">
-          {tag}
-        </Badge>
-      ))}
+    <Stack isInline>
+      {frontMatter.tags &&
+        frontMatter.tags.map((tag) => (
+          <Badge key={tag} colorScheme="purple">
+            {tag}
+          </Badge>
+        ))}
+    </Stack>
     <Divider />
   </Stack>
 );

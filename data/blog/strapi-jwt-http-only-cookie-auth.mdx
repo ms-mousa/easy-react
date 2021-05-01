@@ -1,0 +1,165 @@
+---
+title: 'Using cookies with Strapi'
+publishedAt: '2021-05-1'
+summary: "Strapi is a great framework to get a backend up and running very quickly. While it's really handy to use out of the box, the way it handles authentication can be better..."
+tags: ['Strapi', 'backend']
+image: '/img/thumbs/strapi-cookie.png'
+---
+
+
+
+[Strapi](https://strapi.io/) is a great framework. It's really easy to _bootstrap_ new APIs on the fly. It provides reallty handy UI for you to see your data and manage it. And most importantly it is a great headless CMS. So your content can live in place, and you can consume it in many. 
+
+The thing I like the most about Strapi is that it does the heavy lifting for you when you want to start a membership backend. Authentication, roles and support for multiple auth providers comes out of the box. So it's really easy to get started. However, maybe the way it's supported out of the box isn't the best...
+
+Strapi uses [JWT](https://jwt.io/) based autheticantion. While JWT is an industry standard, the way Strapi uses it by default is, [arguably](https://stackoverflow.com/questions/27067251/where-to-store-jwt-in-browser-how-to-protect-against-csrf), not the best. In [Strapi documentation](https://strapi.io/documentation/developer-docs/latest/guides/auth-request.html#login-as-a-reader), the authors show us how to use the returned JWT token as an authenticating header. 
+
+So basically to store the JWT in your frontend app, or in local storage or cookie, and use it like so: 
+
+```javascript
+import axios from 'axios';
+
+const { data } = await axios.get('http://localhost:1337/articles', {
+  headers: {
+    Authorization:
+      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTc2OTM4MTUwLCJleHAiOjE1Nzk1MzAxNTB9.UgsjjXkAZ-anD257BF7y1hbjuY3ogNceKfTAQtzDEsU',
+  },
+});
+```
+
+While this method actually _works_, It's debatble if it's the best way to do things. The issue is that you need to store JWT somewhere. And using localstorage or JavaScript accessible cookies exposes your system to XSS attacks. 
+
+## What's the best way then?
+
+The recommended way, read _safe enough_, is to store that JWT secret in a `httpOnly` cookie which your browser will automatically send to the API server everytime a request is sent. This way you don't have to worry about storing the JWT and handling it in your code on the client side; it's basically sent automatically and the server will extract it and use it. 🚀
+
+The good news is, this is really easy to do in Strapi as it offers a really simple way to customise and extend its functionalities. While the different ways to do this would be the topic of different articles, today we will use [Middlewares](https://en.wikipedia.org/wiki/Middleware) to upgrade the security of our backend.
+
+In short we will write two middleware:
+
+- `cookieSetter`: This will set the `httpOnly` cookie (but from the server side not the client side) after the user is logged in. 
+- `cookieGetter`: This will extract the cookie sent with each request, add it to the bearer header and send it to the server along with the request. 
+
+This way we protect the JWT as the only way to access it is to send a request from the browser where the user is logged in. That cookie is not accessible from the script side making it a secure way to communicate with our server.
+
+I know that you're probably like "Stop it, show me the code already!". Ezzz big guy, code coming your way.
+
+## Server side configuration
+
+Alright alright, let's do this. (Psst: Refer to [Strapi documentation about middelwares](https://strapi.io/documentation/developer-docs/latest/setup-deployment-guides/configurations.html#middlewares))
+
+First we need to add a folder named `middlewares` in the root of the strapi app. Inside ths folder we will have two folders. Each with the name of the intended middleware. 
+
+
+So we end up with the following folder:
+
+![Middleware folder structure](/img/middleware-folder.png)
+
+After this we need to code each middleware. As mentioned before, the `cookieSetter` will fire after the user has logged in and will set the cookie:
+
+```javascript:./middlewares/cookieSetter/index.js
+module.exports = (strapi) => ({
+  initialize() {
+    strapi.app.use(async (ctx, next) => {
+      await next(); 
+      // our code will run after the request has been processed
+      const requestURL = ctx.request.url;
+      // we are only concered with `auth` route
+      if (requestURL.startsWith('/auth/')) {
+        const responseCode = ctx.response.status;
+        if (responseCode === 200) {
+          const { jwt: jwtToken } = ctx.response.body;
+          ctx.cookies.set('token', jwtToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 1000 * 60 * 60 * 24 * 14, // 14 Day Age (up to you)
+            // discard the domain property if in development mode to make the cookie work
+            ...(process.env.NODE_ENV === 'production'
+              ? { domain: process.env.PRODUCTION_URL }
+              : {}),
+          });
+        }
+      }
+    });
+  },
+});
+
+```
+
+Next we need to add the `cookieGetter` middleware to which will run before our request is processed by the server (hits the api controller):
+
+```javascript:./middlewares/cookieGetter/index.js
+module.exports = (strapi) => ({
+  initialize() {
+    strapi.app.use(async (ctx, next) => {
+      // our code runs before the request is processed
+      if (ctx.request && ctx.request.header && !ctx.request.header.authorization) {
+        // Simple grab and smash
+        const token = ctx.cookies.get('token');
+        if (token) {
+          ctx.request.header.authorization = `Bearer ${token}`;
+        }
+      }
+      await next();
+    });
+  },
+});
+
+```
+
+So that will take care of the middleware, however we need to configure those middleware order of excusion to make them work. Also we need to [add `CORS` policy ](https://strapi.io/documentation/developer-docs/latest/setup-deployment-guides/configurations.html#middlewares)to allow the domain of the client side to be accepted as an origin from the server perspective. To do this we need to add a `middleware` config file under the `config` folder. `./config/middleware.js`:
+
+```javascript:./config/middleware.js
+module.exports = {
+  load: {
+    before: ['cookieGetter', 'responseTime', 'logger', 'cors', 'responses', 'gzip'],
+    order: [
+      "Define the middlewares' load order by putting their name in this array is the right order",
+    ],
+    after: ['parser', 'router', 'cookieSetter'],
+  },
+  settings: {
+    cors: {
+      origin: ['http://localhost:3000', 'http://localhost:1337']
+    },
+    cookieGetter: {
+      enabled: true
+    },
+    cookieSetter: {
+      enabled: true
+    }
+  },
+};
+```
+
+Notice that the load order is important and that the barebones file is copied over from [Strapi Documentation](https://strapi.io/documentation/developer-docs/latest/setup-deployment-guides/configurations.html#middlewares)
+
+
+
+Keen for a ready made solution? Download a monorepo setup with NEXTJS and Strapi with all the hard work done for you. Signup below:
+
+## Client side configuration
+
+This part is super simple, you just need to make sure to tell the browser to send that cookie along with each request. If you're using Axios, you should, you can easily add that to the global config as such:
+
+```javascript
+import axios from 'axios';
+
+export const Axios = axios.create({
+  baseURL: process.env.BACKEND_URL,
+  withCredentials: true, // This is where we tell the browser to send the cookie across
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+});
+```
+
+
+
+## Conclusion
+
+That is it. Simple and powerful. Honestly this would be a testimony to how good Strapi is. It's that simple to ulter that way it works. 
+
+Stay tuned for more Strapi content! 
+

@@ -1,0 +1,33 @@
+---
+title: Collect payments using Stripe with NextJS and Chakra-UI
+summary: learn to use Stripe Elements to create a checkout page and receive payments from within your app...
+tags: ['Stripe', 'Chakra-ui'] 
+image: /img/thumbs/stripe-checkout-thumb.png
+---
+
+Collecting payments online can be very powerful; It simply opens up the door to a whole new set of possibities. But it can be daunting to get started with it. It can also be dangrous. The user is trusting you with their credit card information. And there is many reglatory requirments involved with that too. 
+
+Thankfully payment processer services like Stripe handle all the heavy lifting and give you a simple API to build elegant checkout pages. 
+
+## Why use Stripe?
+
+Stripe offers many benefits and takes away a big worry off your shoulder:
+
+- Don't need to worry about PCI compliance:
+  By using Stripe, we avoid storing the credit card details of our customers and we don't have to worry about data compliance of breaches.
+- Don't worry about fraudulent payments:
+  Stripe runs its own fraud detection rules and carries that off your shoulder too.
+- Pay a small fee:
+  You only pay a small fee and you don't pay a subscription. It's free to start!!
+- Heavy focus on developer experience:
+  Stripe stands out with its focus on the developer experience and excellent documentations. 
+
+
+
+## Acepting payments overview
+
+Before we get started writing code, I'd like to explain the process steps in general. Having an abstract understanding of the process before starting is very useful. 
+
+Stripe payments is based on the payment intent concept. Once the user visits the checkout page, we get in touch with Stripe to create a `paymentIntent` object. This object will contain the information about our request and will later be used to attmpt a charge on the customer credit card.
+
+![Screen Shot 2021-04-13 at 3.04.23 pm](/Users/covergenius/Library/Application Support/typora-user-images/Screen Shot 2021-04-13 at 3.04.23 pm.png)

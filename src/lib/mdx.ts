@@ -43,7 +43,7 @@ export async function getFileBySlug(type: string, slug: string) {
   };
 }
 
-export async function getAllFilesFrontMatter(type: string) {
+export async function getAllFilesFrontMatter<T>(type: string): Promise<T> {
   const files = await getFiles(type);
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -42,6 +42,7 @@ export const PostCard: ReactComponentType<{ post: IPost }> = ({ post }) => {
               fontSize="2xl"
               transition="0.5s ease"
               position="relative"
+              mb="1"
               _after={{
                 content: "''",
                 position: "absolute",

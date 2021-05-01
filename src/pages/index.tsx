@@ -75,7 +75,7 @@ const IndexPage: ReactComponentType<{
 export default IndexPage;
 
 export async function getStaticProps() {
-  const posts = await getAllFilesFrontMatter("blog");
-
+  const allPosts = await getAllFilesFrontMatter<IPost[]>("blog");
+  const posts = allPosts.filter((p) => p.publishedAt);
   return { props: { posts } };
 }

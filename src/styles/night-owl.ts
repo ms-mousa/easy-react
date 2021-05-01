@@ -79,22 +79,4 @@ export const nightOwlDarkTheme = {
   },
   ".token.important,\n.token.bold": { fontWeight: "bold" },
   ".token.italic": { fontStyle: "italic" },
-  // add styles for inline code
-  "p code": {
-    "&:before,  &:after": {
-      content: '"`"',
-    },
-    p: 1,
-    bg: "whiteAlpha.200",
-    rounded: "sm",
-    color: "gray.200",
-  },
-  // Styles for line highlighting
-  ".mdx-marker": {
-    borderLeft: "4px solid",
-    borderColor: "blue.200",
-    bg: "blue.800",
-    ml: "-4",
-    pl: "4",
-  },
 };

@@ -1,4 +1,4 @@
-import { CheckIcon } from "@chakra-ui/icons";
+import { CheckIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 import {
   Center,
   Heading,
@@ -6,7 +6,10 @@ import {
   ListIcon,
   ListItem,
   Text,
+  Flex,
+  Image,
 } from "@chakra-ui/react";
+
 import { ReactComponentType } from "../@types/global";
 
 export const H2: ReactComponentType<{ children: JSX.Element }> = ({
@@ -28,7 +31,7 @@ export const H2: ReactComponentType<{ children: JSX.Element }> = ({
         background: "whiteAlpha.400",
         backgroundImage: "linear-gradient(to right, #F024B9 19%, #A827CF 100%)",
       }}
-      mb="4"
+      my="4"
       as="h2"
       fontSize={["24px", "3xl", "3xl", "3xl"]}
     >
@@ -40,8 +43,8 @@ export const H2: ReactComponentType<{ children: JSX.Element }> = ({
 export const LI: ReactComponentType<{ children: JSX.Element }> = ({
   children,
 }) => (
-  <ListItem>
-    <ListIcon as={CheckIcon} />
+  <ListItem listStyleType="none">
+    <ListIcon as={CheckIcon} color="green.300" />
     {children}
   </ListItem>
 );
@@ -54,15 +57,39 @@ export const Paragraph: ReactComponentType<{ children: JSX.Element }> = ({
   </Text>
 );
 
-export const ExternalLink: ReactComponentType<{ children: JSX.Element }> = ({
-  children,
-}) => (
-  <Link
-    backgroundClip="text"
-    backgroundImag="linear-gradient(to right, #F024B9 19%, #A827CF 100%)"
-    href={children.props?.href}
-    color="pink"
-  >
-    {children}
-  </Link>
+export const ExternalLink: ReactComponentType<{
+  children: JSX.Element;
+  href: string;
+}> = ({ href, children }) => {
+  const isInternalLink = href && (href.startsWith("/") || href.startsWith("#"));
+
+  return (
+    <Link
+      href={href}
+      isExternal={!isInternalLink}
+      color="codeTitleColorDark"
+      textDecor="none"
+      boxShadow="0 0 0 0 inset"
+      transition="box-shadow .25s ease-in-out"
+      _hover={{ textDecor: "none", boxShadow: "0 -2px 0 0 inset" }}
+      display="inline-flex"
+      alignItems="center"
+    >
+      {children}
+      {!isInternalLink && <ExternalLinkIcon ml="1" />}
+    </Link>
+  );
+};
+
+export const CustomImage: ReactComponentType<{
+  children: JSX.Element;
+  src: string;
+  alt: string;
+}> = ({ src, alt }) => (
+  <Flex align="center" direction="column">
+    <Image height="auto" w="auto" src={src} alt={alt} />
+    <Text fontSize="xs" color="whiteAlpha.700">
+      {alt}
+    </Text>
+  </Flex>
 );
