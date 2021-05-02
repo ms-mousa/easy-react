@@ -1,5 +1,6 @@
 import { UnorderedList } from "@chakra-ui/react";
 import { H2, Paragraph, ExternalLink, LI, CustomImage } from "./md";
+import { NewsletterSignup } from "./NewsletterSignup";
 
 export const MDXComponents = {
   h2: H2,
@@ -8,4 +9,5 @@ export const MDXComponents = {
   p: Paragraph,
   a: ExternalLink,
   img: CustomImage,
+  NewsletterSignup,
 };

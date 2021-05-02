@@ -20,17 +20,19 @@ const ArticlePage: ReactComponentType<{
 
   return (
     <Layout>
-      <Box
-        mt="120px"
-        mb="10"
-        alignSelf="center"
-        maxW="1200px"
-        w={["100%", "100%", "1200px", "1200px"]}
-        px="4"
-      >
-        <ArticleHeader frontMatter={frontMatter} />
-        {content}
-      </Box>
+      <>
+        <Box
+          mt="120px"
+          mb="10"
+          alignSelf="center"
+          maxW="1200px"
+          w={["100%", "100%", "1200px", "1200px"]}
+          px="4"
+        >
+          <ArticleHeader frontMatter={frontMatter} />
+          {content}
+        </Box>
+      </>
     </Layout>
   );
 };
