@@ -1,12 +1,10 @@
 import { Divider, Heading, Stack, Text, Badge } from "@chakra-ui/react";
 import { IFrontMatter, ReactComponentType } from "../@types/global";
-import { NewsletterSignup } from "./NewsletterSignup";
 
 export const ArticleHeader: ReactComponentType<{
   frontMatter: IFrontMatter;
 }> = ({ frontMatter }) => (
   <Stack align="center" w="100%">
-    <NewsletterSignup />
     <Heading
       backgroundImage="linear-gradient(to right, #F024B9 19%, #A827CF 100%)"
       backgroundClip="text"
