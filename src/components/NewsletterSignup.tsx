@@ -7,6 +7,8 @@ import {
   Stack,
   Icon,
   Collapse,
+  useToken,
+  Divider,
 } from "@chakra-ui/react";
 import { Form, Formik, FormikValues } from "formik";
 import { useState } from "react";
@@ -19,6 +21,7 @@ import { InputField } from "./Forms/InputField";
 
 export const NewsletterSignup = () => {
   const [afterSubmit, setAfterSubmit] = useState(false);
+  const [whiteAlpha300] = useToken("colors", ["whiteAlpha.400"]);
 
   const handleSubmit = async (values: FormikValues) => {
     const { email, firstName } = values;
@@ -34,9 +37,10 @@ export const NewsletterSignup = () => {
   };
 
   return (
-    <Center mx="3">
+    <Center mx="3" my="7">
       <Box
         py="4"
+        boxShadow={`0 0 0 2px ${whiteAlpha300}`}
         px="5"
         bg="gray.900"
         border="12px solid transparent"
@@ -63,16 +67,17 @@ export const NewsletterSignup = () => {
             {({ isSubmitting }) => (
               <Form>
                 <Stack spacing="3">
-                  <Heading fontSize="2xl" textAlign="center" mb="1">
+                  <Heading fontSize="2xl" textAlign="center">
                     Looking for the source code?
                   </Heading>
-                  <Text textAlign="center" noOfLines={3}>
+                  <Text textAlign="center">
                     If you&apos;re keen to get your hands on the code, insert
                     your email <br />
-                    below and we will send you a monorepo with NextJS and Strapi
+                    below. We will send you a monorepo with NextJS and Strapi
                     <br />
-                    presetup for your next project!
+                    ready for your next big project!
                   </Text>
+                  <Divider />
                   <InputField
                     leftAddonElement={<Icon as={FiUser} color="gray.500" />}
                     placeholder="First Name"
