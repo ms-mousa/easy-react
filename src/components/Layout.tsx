@@ -14,7 +14,7 @@ export const Layout: ReactComponentType<Record<string, any>> = ({
   const meta = {
     title: "Easy React – We got your back!",
     description: `Easy React - tutorials, courses and more. Start your learning journey today!`,
-    ogImage: "https://leerob.io/static/images/banner.png",
+    ogImage: "https://avatars.githubusercontent.com/u/54428626?v=4",
     type: "website",
     date: "14-12-2021",
     ...customMeta,
