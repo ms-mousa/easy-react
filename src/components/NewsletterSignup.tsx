@@ -70,7 +70,7 @@ export const NewsletterSignup = () => {
                   <Heading fontSize="2xl" textAlign="center">
                     Looking for the source code?
                   </Heading>
-                  <Text textAlign="center">
+                  <Text fontSize="lg" textAlign="center">
                     If you&apos;re keen to get your hands on the code, insert
                     your email <br />
                     below. We will send you a monorepo with NextJS and Strapi
@@ -92,7 +92,7 @@ export const NewsletterSignup = () => {
                   />
                   <Button
                     colorScheme="purple"
-                    size="md"
+                    size="lg"
                     isLoading={isSubmitting}
                     type="submit"
                   >

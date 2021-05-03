@@ -29,7 +29,11 @@ export const H2: ReactComponentType<{ children: JSX.Element }> = ({
         transform: "translateX(-50%)",
         transition: "0.2s ease",
         background: "whiteAlpha.400",
-        backgroundImage: "linear-gradient(to right, #F024B9 19%, #A827CF 100%)",
+        backgroundImage: "linear-gradient(to right, #f024b9 19%, #A827CF 100%)",
+      }}
+      _selection={{
+        bg: "transparent",
+        color: "#f024b9",
       }}
       my="4"
       as="h2"
@@ -43,7 +47,7 @@ export const H2: ReactComponentType<{ children: JSX.Element }> = ({
 export const LI: ReactComponentType<{ children: JSX.Element }> = ({
   children,
 }) => (
-  <ListItem listStyleType="none">
+  <ListItem fontSize="xl" listStyleType="none">
     <ListIcon as={CheckIcon} color="green.300" />
     {children}
   </ListItem>
@@ -52,7 +56,7 @@ export const LI: ReactComponentType<{ children: JSX.Element }> = ({
 export const Paragraph: ReactComponentType<{ children: JSX.Element }> = ({
   children,
 }) => (
-  <Text fontSize="md" lineHeight="tall" my="4">
+  <Text fontSize="xl" lineHeight="tall" my="4">
     {children}
   </Text>
 );

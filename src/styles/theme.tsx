@@ -26,6 +26,7 @@ const theme = extendTheme({
     codeBgDark: "#011627",
     codeBgLight: "#fbfbfb",
     inlineCodeColor: "rgb(247, 140, 108)",
+    codeGreen: "rgb(127, 219, 202)",
   },
   styles: {
     global: (props) => ({
@@ -43,6 +44,9 @@ const theme = extendTheme({
         mb: "-2",
         borderBottom: "1px solid",
         borderTopRadius: "md",
+      },
+      code: {
+        fontSize: "xl",
       },
       // add styles for inline code
       "p code, li code": {
