@@ -19,7 +19,11 @@ const ArticlePage: ReactComponentType<{
   });
 
   return (
-    <Layout>
+    <Layout
+      title={frontMatter.title}
+      description={frontMatter.summary}
+      ogImag="https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/763/988af53b-5d7e-435a-98eb-dd4aff5299d2.png"
+    >
       <>
         <Box
           mt="120px"
