@@ -19,7 +19,6 @@ export const Layout: ReactComponentType<Record<string, any>> = ({
     date: "14-12-2021",
     ...customMeta,
   };
-  console.log(getOgURL(meta.title, meta.ogImage));
 
   return (
     <Flex minH="100vh" direction="column">

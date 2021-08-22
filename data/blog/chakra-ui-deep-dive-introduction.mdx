@@ -1,0 +1,117 @@
+---
+title: 'Chakra-ui deep dive - Introduction'
+publishedAt: '2021-04-12'
+summary: "Chakra-UI is a very handy library. This series will show you all you need to know to master it. In this introduction I will show you the philosophy behind chakra..."
+tags: ['Chakra-UI']
+image: '/img/thumbs/chakra-ui-customisations.png'
+---
+
+# Chakra-ui the deep dive
+
+Over the past year [chakra-ui](https://chakra-ui.com/) has become the stable way I build apps in React. It has proven to be the best and fastest way to make UIs on the fly. Either to test things out or for actual production, chakra-ui hasn't let me down. The amount of components suitable for anything you can think of, the fact that everything is built around accessibility and out of the box support for dark theme; it definitly won't disappoint you. 
+
+In the following weeks I will publish a YouTube series followed up with a series of articles/tutorials on chakra-ui. I will start with what is chakra-ui and why you should actually use it. I'll go through most of the components to make you go from zero to hero. 
+
+## What is Chakra-ui and why use it?
+
+Chakra-ui is the best way to build accessible, fast and great looking apps in React. Chakra-ui uses the utility classes approach to styling. Yet instead of passing those classes as class names as you'd with tailwind-css for example, Chakra-ui exposes styles as props that can be passed to all its components. Better still, Chakra-ui offers a factory where you can make any component accept the same props. If that's not brilliant, I don't know what is.
+
+You might be wondering why is that so good? passing props for styling sounds weird. You'd be excused. If you haven't seen magic, it's hard to believe. Yet allow me to explain why this is a great idea.
+
+- You get all the autompletion capabilities of TS. 
+- Your styling is easily, like really easily, manipulated by JS/TS.
+- Your files stay true to the CSS in JS spirit; one file to include everything the component needs. Making them maintainable and simpler to understand.
+
+That's not everything. There is more.
+
+Chakra-ui also comes with a very very good standard theme. The standard theme includes very good default colors that will allow you to make an app that won't feel outdated any time soon. Moreover, chakra-ui offers simple ways to extend the theme with your own colors, components and properties. That's not everything! Chakra-ui components also ship dark-mode ready. You can even make your own dark-mode components very easily. 
+
+Most importantly, you get to do all of this while also knowing that everything you build will be accessible, fast and eay to maintain. Chakra-ui is the real deal. You better get you mind ready to blown away. 🚀
+
+One last trick up Chak-ui sleeves is the way it handles responsive design. While in other libraries you get used to typing different classes for different screen sizes, or even make different component all together. With Chakra-ui it really is as simple as passing an array of values that will be used across differnt device sizes.
+
+So let's recap. Chakra-ui is AWESOME! Here is why:
+
+- Intuitive React-ish styling model through props.
+- Type safe and V1 is even built with Typescript.
+- All components are accessible.
+- Ships with a great standard theme.
+- Dark mode ready. 
+- Handle responsiveness like a boss -> pass an array!
+- Easy to learn and not so hard to master.
+
+There is more. Let's discover them along the way.
+
+## The Chakra-ui way
+
+### Style props
+
+The way you style components in chakra-ui is through style props that are _hooked_ to the theme object. The mapping betwen the props, css styles and theme object is all handled beautifully by the core library. You only need to pass props that sound almost like normal CSS to style your components. Let's take a look:
+
+```jsx
+import { Box } from "@chakra-ui/react"
+// m={2} refers to the value of `theme.space[2]`
+// m -> refers to margin in all directions
+<Box m={2}> Tomato </Box>
+```
+
+Notice it was extermely simple to add margin to the component by passing the `m` prop. There is also `my` `mx` for margins in the vertical and horizontal axes respectivly. You can learn more about what props map to what css styles [here](https://chakra-ui.com/docs/features/style-props#margin-and-padding).
+
+Notice a couple of things: 
+
+1- The ease of allowing us to _reimagine_ what styling can be like. Utility functions built in.
+
+2- Thos props directly map into the theme. So everything is consistent and centralized. 
+
+This moves us smoothly to the next point:
+
+### Super default theme
+
+The default theme in chakra-ui is built on top of [system-ui theme specification](https://system-ui.com/theme/). System-ui has become the defacto standard in the when it comes to making themes. Chakra-ui uses a spacing scale that is intuitive and makes sense; every one integer relates to `4px` distance or `0.25rem`. Genius! You can take a look at the scale [here](https://chakra-ui.com/docs/theming/theme#spacing). 
+
+That is only the start. Chakra-ui also ships with great colors that can help you build professional looking apps easily. Inspired by tailwind-css, the theme incluedes almost any color you would need. You can check out the colors [here](https://chakra-ui.com/docs/theming/theme#colors).  
+
+So that means you can do this: 
+
+```jsx
+import { Box } from "@chakra-ui/react"
+// bg refers to background css property and maps to `theme.colors`
+<Box bg='green.200'> Green </Box>
+```
+
+Yet again, notice how simple it is to use your theme with no complications. Simply pass the color name. 
+
+### Color mode
+
+By default all components in chakra-ui are dark-mode compatible. Once you switch the to dark-mode, I'll show you how to do that in later chapters. However, once you change the background of a component, it sticks with one color for both modes. 
+
+However, you can always use this super simple hook from Chakra-ui `useColorModeValue(lightModeColor, darkModeColor)` This returns a value that changes according to the color mode. You can it like this: 
+
+```jsx
+import { Box } from "@chakra-ui/react"
+// bg refers to background css property and maps to `theme.colors`
+<Box bg={useColorModeValue('gray.700', 'gray.200')}> Gray </Box>
+```
+
+This is how easy it is to build a dark-mode compatible custom component. Simple, powerful and amazing. The chakra way.
+
+### Responsiveness 
+
+Responsive design is an essential part of designing great websites. Howver they can be very difficult to manage sometimes. But Chakra-ui helps you with this too. You can either pass an array or an object that has values for `xs, sm, md, lg` like this: 
+
+```jsx
+import { Box } from "@chakra-ui/react"
+// Different sizes for different viewports
+<Box width={['100vw', '100vw', '1140px', '100%']}> Different sizes </Box>
+// Or you can even use an object
+<Box width={xs: '100vw', sm: '100vw', md: '1140px', lg: '100%'}> Different sizes </Box>
+```
+
+That's it. Chakra will take care of the rest. 
+
+## Conculsion
+
+This is a simple introduction to what makes chakra-ui so great. And basics for how you can use it and the foundations of it. In the next article we will go through how to setup your project to use chakra-ui. 
+
+Catch you in the next one. 
+
